@@ -16,6 +16,7 @@
     <!-- AdminLTE Skins. Choose a skin from the css/skins
          folder instead of downloading all of them to reduce the load. -->
     <link rel="stylesheet" href="/src/AdminLTE/dist/css/skins/_all-skins.min.css">
+    <link rel="stylesheet" href="/src/main.css">
     
     <!-- jQuery 2.1.4 -->
     <script src="/src/AdminLTE/plugins/jQuery/jQuery-2.1.4.min.js"></script>
@@ -45,7 +46,7 @@
 
       <header class="main-header">
         <!-- Logo -->
-        <a href="../../index2.html" class="logo">
+        <a href="/" class="logo">
           <!-- mini logo for sidebar mini 50x50 pixels -->
           <span class="logo-mini">C<b>CP</b></span>
           <!-- logo for regular state and mobile devices -->
@@ -59,6 +60,7 @@
           </a>
           <div class="navbar-custom-menu">
             <ul class="nav navbar-nav">
+            <?php /*
               <!-- Messages: style can be found in dropdown.less-->
               <li class="dropdown messages-menu">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -86,28 +88,38 @@
                   </li>
                   <li class="footer"><a href="#">See All Messages</a></li>
                 </ul>
-              </li>
+              </li>*/ ?>
               <!-- Notifications: style can be found in dropdown.less -->
-              <li class="dropdown notifications-menu">
+              <li class="dropdown messages-menu">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                   <i class="fa fa-bell-o"></i>
-                  <span class="label label-warning">10</span>
+                  <span class="label label-warning"><?php echo count($notifications); ?></span>
                 </a>
                 <ul class="dropdown-menu">
-                  <li class="header">You have 10 notifications</li>
+                  <li class="header">Last <?php echo count($notifications); ?> log records</li>
                   <li>
                     <!-- inner menu: contains the actual data -->
                     <ul class="menu">
-                      <li>
+                      <?php foreach($notifications as $notification) { ?>
+                      <li><!-- start message -->
                         <a href="#">
-                          <i class="fa fa-users text-aqua"></i> 5 new members joined today
+                          <div class="pull-left">
+                            <i class="fa fa-user"></i>
+                          </div>
+                          <h4>
+                            <?php echo $notification['log_user']?>
+                            <small><i class="fa fa-clock-o"></i> <?php echo $notification['log_date']?></small>
+                          </h4>
+                          <p><b><?php echo ucfirst($notification['log_module'])?>:</b> <?php echo $notification['log_action']?> <?php echo $notification['log_target']?> (id: <?php echo $notification['log_target_id']?>)</p>
                         </a>
-                      </li>
+                      </li><!-- end message -->
+                      <?php } ?>
                     </ul>
                   </li>
-                  <li class="footer"><a href="#">View all</a></li>
+                  <li class="footer"><a href="/log/">View all</a></li>
                 </ul>
               </li>
+              <?php /*
               <!-- Tasks: style can be found in dropdown.less -->
               <li class="dropdown tasks-menu">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -139,23 +151,26 @@
                   </li>
                 </ul>
               </li>
+              */ ?>
               <!-- User Account: style can be found in dropdown.less -->
               <li class="dropdown user user-menu">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                  <img src="/src/AdminLTE/dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
+                  <i class="fa fa-user"></i>
+                  <!--<img src="/src/AdminLTE/dist/img/user2-160x160.jpg" class="user-image" alt="User Image">-->
                   <span class="hidden-xs"><?php echo $user['user_login']?></span>
                 </a>
                 <ul class="dropdown-menu">
                   <!-- User image -->
                   <li class="user-header">
-                    <img src="/src/AdminLTE/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                    <!--<img src="/src/AdminLTE/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">-->
+                    <i class="fa fa-user" style="color: white; font-size:48px;"></i>
                     <p>
                       <?php echo $user['user_login']?>
-                      <small>Member since Nov. 2012</small>
+                      <!--<small>Member since Nov. 2012</small>-->
                     </p>
                   </li>
                   <!-- Menu Body -->
-                  <li class="user-body">
+                  <!--<li class="user-body">
                     <div class="col-xs-4 text-center">
                       <a href="#">Followers</a>
                     </div>
@@ -165,11 +180,11 @@
                     <div class="col-xs-4 text-center">
                       <a href="#">Friends</a>
                     </div>
-                  </li>
+                  </li>-->
                   <!-- Menu Footer-->
                   <li class="user-footer">
                     <div class="pull-left">
-                      <a href="#" class="btn btn-default btn-flat">Profile</a>
+                      <a href="/user/edit/<?php echo $user['user_id']?>" class="btn btn-default btn-flat">Profile</a>
                     </div>
                     <div class="pull-right">
                       <a href="/login/logout" class="btn btn-default btn-flat">Sign out</a>
@@ -179,7 +194,7 @@
               </li>
               <!-- Control Sidebar Toggle Button -->
               <li>
-                <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
+                <a href="/settings/"><i class="fa fa-gears"></i></a>
               </li>
             </ul>
           </div>

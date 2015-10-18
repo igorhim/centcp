@@ -11,7 +11,7 @@ class Controller {
     }
     
     function lists() {
-        
+        $this->prepareHeader();
         $items = $this->app->{$this->rout}->getWithRelationsBy();
         
         $url = array('edit' => '/' . $this->rout . '/edit/{' . $this->app->{$this->rout}->key . '}');
@@ -36,6 +36,7 @@ class Controller {
     }
     
     function add() {
+        $this->prepareHeader();
         if(!empty($_POST)) {
             $this->app->{$this->rout}->submit();
             header('Location: /' . $this->rout . '/');
@@ -56,6 +57,7 @@ class Controller {
     }
     
     function edit($id) {
+        $this->prepareHeader();
         if(!empty($_POST)) {
             $this->app->{$this->rout}->submit();
             header('Location: /' . $this->rout . '/');
@@ -84,5 +86,15 @@ class Controller {
                 $this->app->{$this->rout}->delete($id);
             }
         }
+    }
+    
+    function prepareHeader() {
+        $where = array();
+        if($this->app->user->current['user_role'] !== 'admin') {
+            $where['log_user'] = $this->app->user->current['user_id'];
+        }
+        
+        $notifications = $this->app->log->getWithRelationsBy($where, array('order' => array('log_id' => 'DESC'), 'limit' => 10));
+        $this->app->assign('notifications', $notifications);
     }
 }

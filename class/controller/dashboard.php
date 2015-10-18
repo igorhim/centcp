@@ -12,6 +12,8 @@ class Dashboard extends \Centcp\Controller {
         $this->app->assign('title', 'Dashboard');
         $this->app->assign('subtitle', '');        
         $this->app->prependMeta('title', 'Dashboard | ');
+        
+        $this->prepareHeader();
     }
     
     function index() {
