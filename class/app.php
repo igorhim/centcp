@@ -17,11 +17,15 @@ class App {
         'subtitle' => '',
         'version' => '0.0.1',
         'copyrights' => '2015',
-        'menu' => '/');
+        'menu' => '/',
+        'notifications' => array());
 
     function __construct() {
         require_once dirname(__file__) . "/../config/main.php";
         $this->settings = $settings;
+        
+        date_default_timezone_set($this->settings['timezone']);
+        setlocale(LC_ALL, $this->settings['locale']);
 
         require_once dirname(__file__) . "/database.php";
         $this->db = new Database($this->settings['db']);
