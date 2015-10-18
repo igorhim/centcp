@@ -15,7 +15,7 @@ class Login extends \Centcp\Controller {
                     exit;
                 }
             }else {
-                //Error
+                $this->app->assign('error', true);
             }
         }
         $this->app->display('login.php');
