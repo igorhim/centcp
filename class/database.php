@@ -61,12 +61,23 @@ class Database {
     }
 
     function prepare($sql) {
-        return $this->pdo->prepare($sql);
+        try {
+            $sth = $this->pdo->prepare($sql);
+        }catch(PDOException $e) {  
+            echo $e->getMessage();  
+        }
+        //var_dump($sth);
+        return $sth;
     }
 
     function execute($sth, $values = array()) {
         if(!empty($values)) {
-            $sth->execute($values);
+            if(method_exists($sth, 'execute')) {
+                $sth->execute($values);
+            }else {
+                var_dump($sth);
+                die();
+            }
         }else {
             $sth->execute();
         }
