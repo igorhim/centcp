@@ -47,6 +47,11 @@
       </div><!-- /.login-logo -->
       <div class="login-box-body">
         <p class="login-box-msg">Sign in to start your session</p>
+        <?php if(isset($error)) { ?>
+        <div class="callout callout-danger">
+            <p>Login and password do not match</p>
+        </div>
+        <?php } ?>
         <form method="post">
           <div class="form-group has-feedback">
             <input type="text" name="login" class="form-control" placeholder="Login">
