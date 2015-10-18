@@ -60,6 +60,16 @@ class Install {
                                 "user_role"  TEXT
                                 );
                                 ');
+                                
+            $app->db->query('CREATE TABLE "log" (
+                                "log_id"  INTEGER PRIMARY KEY AUTOINCREMENT,
+                                "log_date"  TEXT,
+                                "log_user"  INTEGER,
+                                "log_action"  TEXT,
+                                "log_target"  TEXT,
+                                "log_target_id"  INTEGER
+                                );
+                                ');
             
             $app->db->queryBuilder()->insert('user', array('user_id' => 1, 'user_login' => 'admin', 'user_role' => 'admin', 'user_password' => $app->salt('admin')))->prepare('insert')->execute();
     }
